@@ -1,6 +1,5 @@
 ## Thanks
 [Gregor Santner](https://github.com/gsantner/markor)
-## License
 
 ## License
 The code of the app is licensed Apache 2.0 or Commerical (See [LICENSE](/LICENSE.txt) for details).  
