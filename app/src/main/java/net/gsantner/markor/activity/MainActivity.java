@@ -90,7 +90,7 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
         });
 
         setSupportActionBar(findViewById(R.id.toolbar));
-        optShowRate();
+
 
         // Setup viewpager
         _viewPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -147,13 +147,7 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
         return fallback;
     }
 
-    private void optShowRate() {
-        new Rate.Builder(this)
-                .setTriggerCount(4)
-                .setMinimumInstallTime((int) TimeUnit.MINUTES.toMillis(30))
-                .setFeedbackAction(() -> new ActivityUtils(this).showGooglePlayEntryForThisApp())
-                .build().count().showRequest();
-    }
+
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -165,26 +159,7 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        if (item.getItemId() == R.id.action_settings) {
-            new ActivityUtils(this).animateToActivity(SettingsActivity.class, false, null).freeContextRef();
-            return true;
-        }
-        return false;
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.main__menu, menu);
-
-        menu.findItem(R.id.action_settings).setVisible(_appSettings.isShowSettingsOptionInMainToolbar());
-
-        _activityUtils.tintMenuItems(menu, true, Color.WHITE);
-        _activityUtils.setSubMenuIconsVisiblity(menu, true);
-        return true;
-    }
 
     @Override
     protected void onResume() {
@@ -210,20 +185,7 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
-        boolean firstStart = IntroActivity.optStart(this);
-        try {
-            if (!firstStart && new PermissionChecker(this).doIfExtStoragePermissionGranted() && _appSettings.isAppCurrentVersionFirstStart(true)) {
-                SimpleMarkdownParser smp = SimpleMarkdownParser.get().setDefaultSmpFilter(SimpleMarkdownParser.FILTER_ANDROID_TEXTVIEW);
-                String html = "";
-                html += smp.parse(getString(R.string.copyright_license_text_official).replace("\n", "  \n"), "").getHtml();
-                html += "<br/><br/><br/><big><big>" + getString(R.string.changelog) + "</big></big><br/>" + smp.parse(getResources().openRawResource(R.raw.changelog), "", SimpleMarkdownParser.FILTER_ANDROID_TEXTVIEW);
-                html += "<br/><br/><br/><big><big>" + getString(R.string.licenses) + "</big></big><br/>" + smp.parse(getResources().openRawResource(R.raw.licenses_3rd_party), "").getHtml();
-                ActivityUtils _au = new ActivityUtils(this);
-                _au.showDialogWithHtmlTextView(0, html);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     private void restartMainActivity() {
@@ -313,23 +275,27 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
 
     @Override
     public void onBackPressed() {
+        Fragment fragment=getSupportFragmentManager().findFragmentById(R.id.main__view_pager_container);
+        if (!(fragment instanceof IOBackPressed) || !((IOBackPressed) fragment).OnBackPressed()) {
+            if (_doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                _appSettings.setFileBrowserLastBrowsedFolder(_appSettings.getNotebookDirectory());
+                return;
+            }
+
+            // Check if fragment handled back press
+            GsFragmentBase frag = _viewPagerAdapter.getCachedFragments().get(_viewPager.getCurrentItem());
+            if (frag != null && frag.onBackPressed()) {
+                return;
+            }
+
+            // Confirm exit with back / snackbar
+            _doubleBackToExitPressedOnce = true;
+            new ActivityUtils(this).showSnackBar(R.string.press_back_again_to_exit, false, R.string.exit, view -> finish());
+            new Handler().postDelayed(() -> _doubleBackToExitPressedOnce = false, 2000);
+        }
         // Exit confirmed with 2xBack
-        if (_doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            _appSettings.setFileBrowserLastBrowsedFolder(_appSettings.getNotebookDirectory());
-            return;
-        }
 
-        // Check if fragment handled back press
-        GsFragmentBase frag = _viewPagerAdapter.getCachedFragments().get(_viewPager.getCurrentItem());
-        if (frag != null && frag.onBackPressed()) {
-            return;
-        }
-
-        // Confirm exit with back / snackbar
-        _doubleBackToExitPressedOnce = true;
-        new ActivityUtils(this).showSnackBar(R.string.press_back_again_to_exit, false, R.string.exit, view -> finish());
-        new Handler().postDelayed(() -> _doubleBackToExitPressedOnce = false, 2000);
     }
 
     @Override
@@ -363,7 +329,7 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
         if (pos == 0) return getFileBrowserTitle();
         if (pos == 1) return getString(R.string.todo);
         if (pos == 2) return getString(R.string.quicknote);
-        if (pos == 3) return getString(R.string.more);
+        if (pos == 3) return getString(R.string.settings);
         return "";
     }
 
@@ -440,6 +406,8 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
         }
         return _filesystemDialogOptions;
     }
+
+
 
     class SectionsPagerAdapter extends FragmentPagerAdapter {
         private HashMap<Integer, GsFragmentBase> _fragCache = new LinkedHashMap<>();

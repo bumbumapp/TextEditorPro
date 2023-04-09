@@ -21,7 +21,10 @@
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="windowActionBar">false</item>
+        <item name="android:fontFamily">@font/fontss</item>
+        <item name="textColorAlertDialogListItem">@color/white</item>
         <item name="android:actionButtonStyle">@style/LessSpaceActionButtonStyle</item>
         <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -29,13 +32,21 @@
         <item name="actionModeBackground">@color/primary_dark</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="colorBackgroundFloating">@color/primary</item>
         <item name="android:windowBackground">@color/background</item>
+        <item name="android:itemBackground">@color/primary</item>
     </style>
 
+
+
+<style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+<item name="android:popupBackground">@android:color/white</item>
+</style>
     <style name="AppTheme.PreferenceTheme" parent="PreferenceThemeOverlay.v14.Material">
         <item name="preferenceCategoryStyle">@style/AppTheme.PreferenceTheme.CategoryStyle</item>
+<!--        <item name="textColorAlertDialogListItem">@color/primary</item>-->
+<!--        <item name="android:textColor">@color/white</item>-->
     </style>
-
     <style name="AppTheme.PreferenceTheme.CategoryStyle" parent="Preference.Category">
         <item name="android:layout">@layout/opoc_pref_category_text</item>
     </style>
@@ -44,7 +55,6 @@
     <style name="LightTextToolbarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:actionModeBackground">@color/primary_dark</item>
         <item name="actionModeBackground">@color/primary_dark</item>
-
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
@@ -53,6 +63,14 @@
     <style name="AppTheme.Light.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <!-- reduced spacing -->
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondary">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="textColorAlertDialogListItem">@color/white</item>
+    </style>
     <style name="LessSpaceActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:minWidth">1dip</item>
         <item name="android:paddingLeft">8dip</item>
@@ -60,4 +78,5 @@
         <item name="android:paddingStart">8dip</item>
         <item name="android:paddingEnd">8dip</item>
     </style>
+
 </resources>

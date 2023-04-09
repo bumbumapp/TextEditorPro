@@ -11,6 +11,7 @@ package net.gsantner.opoc.util;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -83,11 +84,13 @@ public class CoolExperimentalStuff {
         final LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setGravity(Gravity.CENTER_HORIZONTAL);
+        layout.setBackgroundColor(Color.parseColor("#221f35"));
         final View sep1 = new View(activity);
         sep1.setLayoutParams(new LinearLayout.LayoutParams(100, 1));
         final TextView currentWordTextShower = new TextView(activity);
 
         final Button buttonMoveWords = new Button(activity);
+        buttonMoveWords.setBackgroundColor(Color.parseColor("#221f35"));
         buttonMoveWords.setText("+100 words (click)\n-100 long click swipe down");
         buttonMoveWords.setOnClickListener(v -> textPos.set(Math.max(0, Math.min(text.length() - 2, textPos.get() + 100))));
         buttonMoveWords.setOnLongClickListener(v -> {
@@ -143,6 +146,7 @@ public class CoolExperimentalStuff {
                 .setView(layout);
         dialog.set(dialogBuilder.create());
         Window w;
+
         dialog.get().show();
         if ((w = dialog.get().getWindow()) != null) {
             w.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);

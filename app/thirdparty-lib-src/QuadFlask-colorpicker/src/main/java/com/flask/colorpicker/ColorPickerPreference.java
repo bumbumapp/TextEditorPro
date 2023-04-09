@@ -59,7 +59,6 @@ public class ColorPickerPreference extends Preference {
 
 			density = typedArray.getInt(R.styleable.ColorPickerPreference_density, 10);
 			wheelType = ColorPickerView.WHEEL_TYPE.indexOf(typedArray.getInt(R.styleable.ColorPickerPreference_wheelType, 0));
-
 			selectedColor = typedArray.getInt(R.styleable.ColorPickerPreference_initialColor, 0xffffffff);
 
 			pickerTitle = typedArray.getString(R.styleable.ColorPickerPreference_pickerTitle);

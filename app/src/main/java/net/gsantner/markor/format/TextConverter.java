@@ -141,7 +141,7 @@ public abstract class TextConverter {
             html += HTML003_RIGHT_TO_LEFT;
         }
 
-        html += head + appSettings.getInjectedHeader();
+
 
         html += HTML_ON_PAGE_LOAD_S + onLoadJs + HTML_ON_PAGE_LOAD_E;
 
@@ -164,7 +164,6 @@ public abstract class TextConverter {
 
         // Load content
         html += HTML500_BODY;
-        html += appSettings.getInjectedBody();
         html += content;
         html += HTML990_BODY_END;
 

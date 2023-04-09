@@ -210,7 +210,7 @@
 
 
                 <other.com.flask.colorpicker.ColorPickerPreference
-                    android:defaultValue="@color/white"
+                    android:defaultValue="@color/dark_grey"
                     android:icon="@drawable/ic_text_fields_black_24dp"
                     android:key="@string/pref_key__editor_basic_color_scheme__fg_dark"
                     android:title="FG Dark" />
@@ -389,19 +389,7 @@
             android:summary="@string/swipe_to_change_to_edit_or_view_mode"
             android:title="@string/swipe_to_change_mode" />
 
-        <PreferenceCategory android:title="@string/inject">
-            <androidx.preference.EditTextPreference
-                android:defaultValue="@string/inject_to_head_default"
-                android:icon="@drawable/ic_add_white_24dp"
-                android:key="@string/pref_key__inject_to_head"
-                android:summary="@string/js_css"
-                android:title="@string/inject_to_head" />
-            <androidx.preference.EditTextPreference
-                android:defaultValue="@string/empty_string"
-                android:icon="@drawable/ic_add_white_24dp"
-                android:key="@string/pref_key__inject_to_body"
-                android:title="@string/inject_to_body" />
-        </PreferenceCategory>
+
 
         <PreferenceCategory android:title="@string/text">
             <other.com.flask.colorpicker.ColorPickerPreference
@@ -595,6 +583,7 @@
             android:icon="@drawable/ic_invert_colors_black_24dp"
             android:key="@string/pref_key__app_theme"
             android:summary="%1$s"
+            app:isPreferenceVisible="false"
             android:title="@string/theme" />
 
         <net.gsantner.opoc.preference.LanguagePreferenceCompat
@@ -603,5 +592,4 @@
             android:summary="@string/language_change_restart_description"
             android:title="@string/language" />
     </PreferenceCategory>
-
 </PreferenceScreen> <!-- Screen -->

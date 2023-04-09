@@ -12,6 +12,7 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/opoc_filesystem_item__root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -28,6 +29,7 @@
         android:layout_gravity="center_vertical|start"
         android:layout_marginRight="16dp"
         android:importantForAccessibility="no"
+        app:tint="@color/accent"
         tools:ignore="ContentDescription,RtlHardcoded"
         tools:src="@android:drawable/btn_radio" />
 
@@ -43,7 +45,6 @@
             android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:importantForAccessibility="no"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textSize="19sp"
             tools:text="how to write a readme.md" />
 
@@ -55,7 +56,7 @@
             android:ellipsize="middle"
             android:importantForAccessibility="no"
             android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="#CCFFFFFF"
             android:textSize="15sp"
             tools:text="/sdcard/Documents/somewhere" />
     </LinearLayout>

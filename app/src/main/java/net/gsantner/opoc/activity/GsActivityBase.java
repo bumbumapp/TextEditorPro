@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import net.gsantner.markor.activity.MoreFragment;
 import net.gsantner.opoc.preference.SharedPreferencesPropertyBackend;
 import net.gsantner.opoc.util.ActivityUtils;
 import net.gsantner.opoc.util.Callback;
@@ -99,9 +100,18 @@ public abstract class GsActivityBase<AS extends SharedPreferencesPropertyBackend
             if (t != null) {
                 t.setTitle(title);
             }
+            if (MoreFragment.titleprefence!=null){
+                t.setTitle(title);
+            }
+            if (MoreFragment.titleprefence==null){
+                t.setTitle(title);
+            }
+
         } catch (Exception ignored) {
         }
     }
+
+
 
     /**
      * Set the Activity {@link Toolbar}, or more specific it's parent AppBarLayout to visible/gone

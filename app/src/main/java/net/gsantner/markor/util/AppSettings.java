@@ -60,7 +60,7 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
 
         if (getInt(R.string.pref_key__editor_basic_color_scheme__bg, -999) == -999) {
             setEditorBasicColor(true, R.color.white, R.color.dark_grey);
-            setEditorBasicColor(false, R.color.dark_grey, R.color.light__background);
+            setEditorBasicColor(false, R.color.dark_grey, R.color.white);
         }
     }
 
@@ -556,20 +556,14 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
         return list;
     }
 
-    public String getInjectedHeader() {
-        return getString(R.string.pref_key__inject_to_head, rstr(R.string.inject_to_head_default));
-    }
 
-    public String getInjectedBody() {
-        return getString(R.string.pref_key__inject_to_body, "");
-    }
 
     public boolean isEditorHistoryEnabled() {
         return true;//getBool(R.string.pref_key__editor_history_enabled3, true);
     }
 
     public int getEditorForegroundColor() {
-        return getInt(R.string.pref_key__editor_basic_color_scheme__fg, rcolor(R.color.primary_text));
+        return getInt(R.string.pref_key__editor_basic_color_scheme__fg, rcolor(R.color.primary));
     }
 
     public int getEditorBackgroundColor() {
@@ -589,8 +583,8 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
     }
 
     public void setEditorBasicColor(boolean forDarkMode, @ColorRes int fgColor, @ColorRes int bgColor) {
-        int resIdFg = forDarkMode ? R.string.pref_key__editor_basic_color_scheme__fg_dark : R.string.pref_key__editor_basic_color_scheme__fg_light;
-        int resIdBg = forDarkMode ? R.string.pref_key__editor_basic_color_scheme__bg_dark : R.string.pref_key__editor_basic_color_scheme__bg_light;
+        int resIdFg = forDarkMode ? R.string.pref_key__editor_basic_color_scheme__fg_light: R.string.pref_key__editor_basic_color_scheme__fg_light;
+        int resIdBg = forDarkMode ? R.string.pref_key__editor_basic_color_scheme__bg_light :R.string.pref_key__editor_basic_color_scheme__bg_dark;
         setInt(resIdFg, rcolor(fgColor));
         setInt(resIdBg, rcolor(bgColor));
     }

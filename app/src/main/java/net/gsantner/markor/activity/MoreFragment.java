@@ -10,22 +10,66 @@
 package net.gsantner.markor.activity;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
 
 import net.gsantner.markor.R;
+import net.gsantner.markor.ui.FilesystemViewerCreator;
+import net.gsantner.markor.ui.SearchOrCustomTextDialogCreator;
+import net.gsantner.markor.util.ActivityUtils;
+import net.gsantner.markor.util.AppSettings;
+import net.gsantner.markor.util.BackupUtils;
+import net.gsantner.markor.util.PermissionChecker;
+import net.gsantner.markor.util.ShareUtil;
 import net.gsantner.opoc.activity.GsFragmentBase;
+import net.gsantner.opoc.preference.FontPreferenceCompat;
+import net.gsantner.opoc.preference.GsPreferenceFragmentCompat;
+import net.gsantner.opoc.preference.SharedPreferencesPropertyBackend;
+import net.gsantner.opoc.ui.FilesystemViewerData;
 
-public class MoreFragment extends GsFragmentBase {
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import other.writeily.widget.WrMarkorWidgetProvider;
+
+public class MoreFragment extends GsFragmentBase implements IOBackPressed{
     public static final String FRAGMENT_TAG = "MoreFragment";
-
     public static MoreFragment newInstance() {
         return new MoreFragment();
     }
+    public static String titleprefence;
 
+
+    @SuppressWarnings("WeakerAccess")
+    public static class RESULT {
+        public static final int NOCHANGE = -1;
+        public static final int CHANGED = 1;
+        public static final int RESTART_REQ = 2;
+    }
+
+    public static int activityRetVal = MoreFragment.RESULT.NOCHANGE;
+    private static int iconColor = Color.WHITE;
+
+    protected Toolbar toolbar;
     public MoreFragment() {
     }
 
@@ -42,13 +86,309 @@ public class MoreFragment extends GsFragmentBase {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MoreInfoFragment moreInfoFragment;
+//        toolbar = view.findViewById(R.id.toolbar);
+//
+//        // Custom code
+//
+//
+//        toolbar.setTitle(R.string.settings);
+//        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp));
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                GsPreferenceFragmentCompat prefFrag = (GsPreferenceFragmentCompat) getChildFragmentManager().findFragmentByTag(SettingsFragmentMaster.TAG);
+//                if (prefFrag != null && prefFrag.canGoBack()) {
+//                    prefFrag.goBack();}
+//            }
+//        });
+
+        SettingsFragmentMaster moreInfoFragment;
         if (_savedInstanceState == null) {
             FragmentTransaction t = getChildFragmentManager().beginTransaction();
-            moreInfoFragment = MoreInfoFragment.newInstance();
-            t.replace(R.id.more__fragment__placeholder_fragment, moreInfoFragment, MoreInfoFragment.TAG).commit();
+            moreInfoFragment = SettingsFragmentMaster.newInstance();
+            t.replace(R.id.more__fragment__placeholder_fragment, moreInfoFragment, SettingsFragmentMaster.TAG).commit();
         } else {
-            moreInfoFragment = (MoreInfoFragment) getChildFragmentManager().findFragmentByTag(MoreInfoFragment.TAG);
+            moreInfoFragment = (SettingsFragmentMaster) getChildFragmentManager().findFragmentByTag(SettingsFragmentMaster.TAG);
         }
     }
+    public static abstract class MarkorSettingsFragment extends GsPreferenceFragmentCompat {
+        protected AppSettings _as;
+
+        @Override
+        protected SharedPreferencesPropertyBackend getAppSettings(Context context) {
+            if (_as == null) {
+                _as = new AppSettings(context);
+            }
+            return _as;
+        }
+
+        @Override
+        protected void onPreferenceChanged(SharedPreferences prefs, String key) {
+            activityRetVal = SettingsActivity.RESULT.CHANGED;
+        }
+
+        @Override
+        protected void onPreferenceScreenChanged(PreferenceFragmentCompat preferenceFragmentCompat, PreferenceScreen preferenceScreen) {
+            super.onPreferenceScreenChanged(preferenceFragmentCompat, preferenceScreen);
+            if (!TextUtils.isEmpty(preferenceScreen.getTitle())) {
+                MainActivity a = new MainActivity();
+                if (a!= null) {
+                    titleprefence=String.valueOf(preferenceScreen.getTitle());
+                }
+            }
+        }
+    }
+
+
+    public static class SettingsFragmentMaster extends MarkorSettingsFragment {
+        public static final String TAG = "SettingsFragmentMaster";
+        public static SettingsFragmentMaster newInstance() {
+            return new SettingsFragmentMaster();
+        }
+        @Override
+        public int getPreferenceResourceForInflation() {
+            return R.xml.preferences_master;
+        }
+
+        @Override
+        public String getFragmentTag() {
+            return TAG;
+        }
+
+        @Override
+        public void doUpdatePreferences() {
+            String remove = "/storage/emulated/0/";
+            updateSummary(R.string.pref_key__notebook_directory,
+                    _cu.htmlToSpanned("<small><small>" + _as.getNotebookDirectoryAsStr().replace(remove, "") + "</small></small>")
+            );
+            updateSummary(R.string.pref_key__quicknote_filepath,
+                    _cu.htmlToSpanned("<small><small>" + _as.getQuickNoteFile().getAbsolutePath().replace(remove, "") + "</small></small>")
+            );
+            updateSummary(R.string.pref_key__todo_filepath,
+                    _cu.htmlToSpanned("<small><small>" + _as.getTodoFile().getAbsolutePath().replace(remove, "") + "</small></small>")
+            );
+            updatePreference(R.string.pref_key__is_launcher_for_special_files_enabled, null,
+                    ("Launcher (" + getString(R.string.special_documents) + ")"),
+                    getString(R.string.app_drawer_launcher_special_files_description), true
+            );
+            updateSummary(R.string.pref_key__exts_to_always_open_in_this_app, _appSettings.getString(R.string.pref_key__exts_to_always_open_in_this_app, ""));
+
+            final String fileDescFormat = _appSettings.getString(R.string.pref_key__file_description_format, "");
+            if (fileDescFormat.equals("")) {
+                updateSummary(R.string.pref_key__file_description_format, getString(R.string.default_));
+            } else {
+                updateSummary(R.string.pref_key__file_description_format, fileDescFormat);
+            }
+
+            setPreferenceVisible(R.string.pref_key__is_multi_window_enabled, Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+
+            setPreferenceVisible(R.string.pref_key__set_encryption_password, Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && _as.isDefaultPasswordSet()) {
+                updateSummary(R.string.pref_key__set_encryption_password, getString(R.string.hidden_password));
+            }
+
+
+            final int[] experimentalKeys = new int[]{
+                    R.string.pref_key__swipe_to_change_mode,
+                    R.string.pref_key__todotxt__hl_delay,
+                    R.string.pref_key__markdown__hl_delay_v2,
+                    R.string.pref_key__theming_hide_system_statusbar,
+                    R.string.pref_key__tab_width_v2,
+                    R.string.pref_key__editor_line_spacing,
+            };
+            for (final int keyId : experimentalKeys) {
+                setPreferenceVisible(keyId, _as.isExperimentalFeaturesEnabled());
+            }
+        }
+
+        @SuppressLint("ApplySharedPref")
+        @Override
+        protected void onPreferenceChanged(final SharedPreferences prefs, final String key) {
+            super.onPreferenceChanged(prefs, key);
+            final Context context = getContext();
+
+            if (eq(key, R.string.pref_key__language)) {
+                activityRetVal = SettingsActivity.RESULT.RESTART_REQ;
+                _as.setRecreateMainRequired(true);
+            } else if (eq(key, R.string.pref_key__app_theme)) {
+                _as.applyAppTheme();
+                getActivity().finish();
+            } else if (eq(key, R.string.pref_key__theming_hide_system_statusbar)) {
+                activityRetVal = SettingsActivity.RESULT.RESTART_REQ;
+                _as.setRecreateMainRequired(true);
+            } else if (eq(key, R.string.pref_key__is_launcher_for_special_files_enabled)) {
+                boolean extraLaunchersEnabled = prefs.getBoolean(key, false);
+                ActivityUtils au = new ActivityUtils(getActivity());
+                au.applySpecialLaunchersVisibility(extraLaunchersEnabled);
+            } else if (eq(key, R.string.pref_key__file_description_format)) {
+                try {
+                    new SimpleDateFormat(prefs.getString(key, ""), Locale.getDefault());
+                } catch (IllegalArgumentException e) {
+                    Toast.makeText(getContext(), e.getLocalizedMessage() + "\n\n" + getString(R.string.loading_default_value), Toast.LENGTH_SHORT).show();
+                    prefs.edit().putString(key, "").commit();
+                }
+            } else if (eq(key, R.string.pref_key__share_into_format)) {
+                try {
+                    Toast.makeText(context, ShareUtil.formatDateTime(context, prefs.getString(key, ""), System.currentTimeMillis()), Toast.LENGTH_SHORT).show();
+                } catch (IllegalArgumentException e) {
+                    Toast.makeText(context, e.getLocalizedMessage() + "\n\n" + getString(R.string.loading_default_value), Toast.LENGTH_SHORT).show();
+                }
+            } else if (eq(key, R.string.pref_key__notebook_directory, R.string.pref_key__quicknote_filepath, R.string.pref_key__todo_filepath)) {
+                WrMarkorWidgetProvider.updateLauncherWidgets();
+            }
+        }
+
+        @Override
+        @SuppressWarnings({"ConstantConditions", "ConstantIfStatement", "StatementWithEmptyBody"})
+        public Boolean onPreferenceClicked(Preference preference, String key, int keyResId) {
+            PermissionChecker permc = new PermissionChecker(getActivity());
+            switch (keyResId) {
+
+                case R.string.pref_key__notebook_directory: {
+                    if (permc.doIfExtStoragePermissionGranted()) {
+                        FragmentManager fragManager = getActivity().getSupportFragmentManager();
+                        FilesystemViewerCreator.showFolderDialog(new FilesystemViewerData.SelectionListenerAdapter() {
+                            @Override
+                            public void onFsViewerSelected(String request, File file, final Integer lineNumber) {
+                                _as.setSaveDirectory(file.getAbsolutePath());
+                                _as.setRecreateMainRequired(true);
+                                doUpdatePreferences();
+                            }
+
+                            @Override
+                            public void onFsViewerConfig(FilesystemViewerData.Options dopt) {
+                                dopt.titleText = R.string.select_storage_folder;
+                                if (!permc.mkdirIfStoragePermissionGranted()) {
+                                    dopt.rootFolder = Environment.getExternalStorageDirectory();
+                                }
+                            }
+                        }, fragManager, getActivity());
+                    }
+                    return true;
+                }
+                case R.string.pref_key__quicknote_filepath: {
+                    if (permc.doIfExtStoragePermissionGranted()) {
+                        FragmentManager fragManager = getActivity().getSupportFragmentManager();
+                        FilesystemViewerCreator.showFileDialog(new FilesystemViewerData.SelectionListenerAdapter() {
+                            @Override
+                            public void onFsViewerSelected(String request, File file, final Integer lineNumber) {
+                                _as.setQuickNoteFile(file);
+                                _as.setRecreateMainRequired(true);
+                                doUpdatePreferences();
+                            }
+
+                            @Override
+                            public void onFsViewerConfig(FilesystemViewerData.Options dopt) {
+                                dopt.titleText = R.string.quicknote;
+                                dopt.rootFolder = _as.getNotebookDirectory();
+                            }
+                        }, fragManager, getActivity(), FilesystemViewerCreator.IsMimeText);
+                    }
+                    return true;
+                }
+                case R.string.pref_key__todo_filepath: {
+                    if (permc.doIfExtStoragePermissionGranted()) {
+                        FragmentManager fragManager = getActivity().getSupportFragmentManager();
+                        FilesystemViewerCreator.showFileDialog(new FilesystemViewerData.SelectionListenerAdapter() {
+                            @Override
+                            public void onFsViewerSelected(String request, File file, final Integer lineNumber) {
+                                _as.setTodoFile(file);
+                                _as.setRecreateMainRequired(true);
+                                doUpdatePreferences();
+                            }
+
+                            @Override
+                            public void onFsViewerConfig(FilesystemViewerData.Options dopt) {
+                                dopt.titleText = R.string.todo;
+                                dopt.rootFolder = _as.getNotebookDirectory();
+                            }
+                        }, fragManager, getActivity(), FilesystemViewerCreator.IsMimeText);
+                    }
+                    return true;
+                }
+                case R.string.pref_key__editor_basic_color_scheme_markor: {
+                    _as.setEditorBasicColor(true, R.color.white, R.color.dark_grey);
+                    _as.setEditorBasicColor(false, R.color.dark_grey, R.color.light__background);
+                    break;
+                }
+                case R.string.pref_key__editor_basic_color_scheme_blackorwhite: {
+                    _as.setEditorBasicColor(true, R.color.white, R.color.black);
+                    _as.setEditorBasicColor(false, R.color.black, R.color.white);
+                    break;
+                }
+                case R.string.pref_key__editor_basic_color_scheme_solarized: {
+                    _as.setEditorBasicColor(true, R.color.solarized_fg, R.color.solarized_bg_dark);
+                    _as.setEditorBasicColor(false, R.color.solarized_fg, R.color.solarized_bg_light);
+                    break;
+                }
+                case R.string.pref_key__editor_basic_color_scheme_gruvbox: {
+                    _as.setEditorBasicColor(true, R.color.gruvbox_fg_dark, R.color.gruvbox_bg_dark);
+                    _as.setEditorBasicColor(false, R.color.gruvbox_fg_light, R.color.gruvbox_bg_light);
+                    break;
+                }
+                case R.string.pref_key__editor_basic_color_scheme_nord: {
+                    _as.setEditorBasicColor(true, R.color.nord_fg_dark, R.color.nord_bg_dark);
+                    _as.setEditorBasicColor(false, R.color.nord_fg_light, R.color.nord_bg_light);
+                    break;
+                }
+                case R.string.pref_key__editor_basic_color_scheme_greenscale: {
+                    _as.setEditorBasicColor(true, R.color.green_dark, R.color.black);
+                    _as.setEditorBasicColor(false, R.color.green_light, R.color.white);
+                    break;
+                }
+                case R.string.pref_key__editor_basic_color_scheme_sepia: {
+                    _as.setEditorBasicColor(true, R.color.sepia_bg_light__fg_dark, R.color.sepia_fg_light__bg_dark);
+                    _as.setEditorBasicColor(false, R.color.sepia_fg_light__bg_dark, R.color.sepia_bg_light__fg_dark);
+                    break;
+                }
+                case R.string.pref_key__plaintext__reorder_actions:
+                case R.string.pref_key__markdown__reorder_actions:
+                case R.string.pref_key__zimwiki__reorder_actions:
+                case R.string.pref_key__todotxt__reorder_actions: {
+                    startActivity(new Intent(getActivity(), ActionOrderActivity.class).putExtra(ActionOrderActivity.EXTRA_FORMAT_KEY, keyResId));
+                    break;
+                }
+                case R.string.pref_key__set_encryption_password: {
+                    SearchOrCustomTextDialogCreator.showSetPasswordDialog(getActivity());
+                    break;
+                }
+                case R.string.pref_key__backup_settings: {
+                    BackupUtils.showBackupWriteToDialog(getContext(), getFragmentManager());
+                    break;
+                }
+                case R.string.pref_key__restore_settings: {
+                    BackupUtils.showBackupSelectFromDialog(getContext(), getFragmentManager());
+                    break;
+                }
+            }
+
+            if (key.startsWith("pref_key__editor_basic_color_scheme") && !key.contains("_fg_") && !key.contains("_bg_")) {
+                _as.setRecreateMainRequired(true);
+                restartActivity();
+            }
+            return null;
+        }
+
+        @Override
+        public boolean isDividerVisible() {
+            return true;
+        }
+    }
+    @Override
+    public boolean OnBackPressed() {
+        GsPreferenceFragmentCompat prefFrag = (GsPreferenceFragmentCompat) getChildFragmentManager().findFragmentByTag(SettingsFragmentMaster.TAG);
+        if (prefFrag != null && prefFrag.canGoBack()) {
+            prefFrag.goBack();
+            return true;
+        }
+        return false;
+    }
+
+
+//    @Override
+//    public void onBackPressed() {
+
+//        super.onBackPressed();
+//    }
+
 }

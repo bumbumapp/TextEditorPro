@@ -58,9 +58,9 @@ public class TextFormat {
 
     // Order here is used to **determine** format by it's file extension and/or content heading
     private final static TextConverter[] CONVERTERS = new TextConverter[]{
+            CONVERTER_ZIMWIKI,
             CONVERTER_MARKDOWN,
             CONVERTER_TODOTXT,
-            CONVERTER_ZIMWIKI,
             CONVERTER_KEYVALUE,
             CONVERTER_PLAINTEXT,
     };
@@ -113,15 +113,6 @@ public class TextFormat {
                 format._textActions = new PlaintextTextActions(context, document);
                 break;
             }
-            case FORMAT_ZIMWIKI: {
-                format._converter = CONVERTER_ZIMWIKI;
-                format._highlighter = new ZimWikiHighlighter(as);
-                format._textActions = new ZimWikiTextActions(context, document);
-                format._autoFormatInputFilter = new ZimWikiAutoFormat();
-                format._autoFormatTextWatcher = new ListHandler(ZimWikiAutoFormat.getPrefixPatterns());
-                break;
-            }
-            default:
             case FORMAT_MARKDOWN: {
                 format._converter = CONVERTER_MARKDOWN;
                 format._highlighter = new MarkdownHighlighter(as);
@@ -130,6 +121,17 @@ public class TextFormat {
                 format._autoFormatTextWatcher = new ListHandler(MarkdownAutoFormat.getPrefixPatterns());
                 break;
             }
+
+            default:
+            case FORMAT_ZIMWIKI: {
+                format._converter = CONVERTER_ZIMWIKI;
+                format._highlighter = new ZimWikiHighlighter(as);
+                format._textActions = new ZimWikiTextActions(context, document);
+                format._autoFormatInputFilter = new ZimWikiAutoFormat();
+                format._autoFormatTextWatcher = new ListHandler(ZimWikiAutoFormat.getPrefixPatterns());
+                break;
+            }
+
         }
         return format;
     }

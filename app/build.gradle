@@ -25,9 +25,9 @@ android {
 
     defaultConfig {
         resValue "string", "manifest_package_id", "net.gsantner.markor"
-        applicationId "net.gsantner.markor"
-        versionName "2.10.3"
-        versionCode 139
+        applicationId "com.bumbumapps.texteditorpro"
+        versionName "1.0.0"
+        versionCode 1
 
         multiDexEnabled true
         minSdkVersion rootProject.ext.version_minSdk
@@ -41,20 +41,7 @@ android {
         setProperty("archivesBaseName", applicationId + "-v" + versionCode + "-" + versionName)
     }
 
-    flavorDimensions "default"
-    productFlavors {
-        flavorAtest {
-            applicationId "net.gsantner.markor_test"
-            versionCode = Integer.parseInt(new Date().format('yyMMdd'))
-            versionName = defaultConfig.versionName + "-" + new Date().format('HHmm')
-            buildConfigField "boolean", "IS_TEST_BUILD", "true"
-        }
-        flavorDefault {
-        }
-        flavorGplay {
-            buildConfigField "boolean", "IS_GPLAY_BUILD", "true"
-        }
-    }
+
 
     sourceSets {
         main { assets.srcDirs = ['src/main/assets'] }

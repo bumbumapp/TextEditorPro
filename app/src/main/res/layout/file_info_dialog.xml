@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/info"
+            android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <TextView
@@ -36,6 +37,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="16dp"
             android:ellipsize="end"
+            android:textColor="@color/white"
             android:lines="1"
             android:text="@string/name"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -47,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:ellipsize="middle"
+            android:textColor="@color/white"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             tools:text="cool document.md" />
@@ -57,6 +60,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="16dp"
             android:ellipsize="end"
+            android:textColor="@color/white"
             android:lines="1"
             android:text="@string/location"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -67,6 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             tools:text="/sdcard/Documents/somewhere" />
 
@@ -84,6 +89,7 @@
                 android:layout_marginTop="16dp"
                 android:ellipsize="end"
                 android:lines="1"
+                android:textColor="@color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textStyle="bold"
                 tools:text="@string/last_modified_witharg" />
@@ -92,6 +98,7 @@
                 android:id="@+id/ui__fileinfodialog__last_modified"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:layout_gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 tools:text="today" />
@@ -102,6 +109,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="16dp"
                 android:ellipsize="end"
+                android:textColor="@color/white"
                 android:lines="1"
                 android:text="@string/size"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -112,6 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textColor="@color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 tools:text="859KB (81234 Bytes)" />
         </LinearLayout>
@@ -130,6 +139,7 @@
                 android:layout_marginTop="16dp"
                 android:ellipsize="end"
                 android:lines="1"
+                android:textColor="@color/white"
                 android:text="@string/text_lines"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textStyle="bold" />
@@ -138,6 +148,7 @@
                 android:id="@+id/ui__fileinfodialog__textinfo_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:layout_gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 tools:text="5 / 3 / 4" />
@@ -155,6 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="24dp"
+                android:textColor="@color/white"
                 android:text="@string/settings"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -162,6 +174,7 @@
                 android:id="@+id/ui__fileinfodialog__recents"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:layout_gravity="center_vertical"
                 android:text="@string/list_in_recent_files" />
 
@@ -170,6 +183,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="24dp"
+                android:textColor="@color/white"
                 android:text="@string/tagging"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:visibility="gone" />
@@ -180,6 +194,7 @@
                 android:layout_height="wrap_content"
                 android:numStars="5"
                 android:rating="0"
+                android:textColor="@color/white"
                 android:stepSize="1"
                 android:visibility="gone" />
         </LinearLayout>

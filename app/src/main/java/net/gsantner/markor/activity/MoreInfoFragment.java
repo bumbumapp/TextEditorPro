@@ -158,7 +158,7 @@ public class MoreInfoFragment extends GsPreferenceFragmentCompat<AppSettings> {
 
         // Basic app info
         if ((pref = findPreference(R.string.pref_key__more_info__app)) != null && pref.getSummary() == null) {
-            pref.setIcon(R.drawable.ic_launcher);
+            pref.setIcon(R.mipmap.app_logo);
             pref.setSummary(String.format(locale, "%s\nVersion v%s (%d)", _cu.getPackageIdReal(), _cu.getAppVersionName(), _cu.bcint("VERSION_CODE", 0)));
         }
 

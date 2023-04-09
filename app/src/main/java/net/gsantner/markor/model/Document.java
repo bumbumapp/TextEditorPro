@@ -75,11 +75,13 @@ public class Document implements Serializable {
             setFormat(TextFormat.FORMAT_TODOTXT);
         } else if (TextFormat.CONVERTER_KEYVALUE.isFileOutOfThisFormat(fnlower)) {
             setFormat(TextFormat.FORMAT_KEYVALUE);
-        } else if (TextFormat.CONVERTER_MARKDOWN.isFileOutOfThisFormat(fnlower)) {
-            setFormat(TextFormat.FORMAT_MARKDOWN);
-        } else if (TextFormat.CONVERTER_ZIMWIKI.isFileOutOfThisFormat(getPath())) {
+
+        }
+        else if (TextFormat.CONVERTER_ZIMWIKI.isFileOutOfThisFormat(getPath())) {
             setFormat(TextFormat.FORMAT_ZIMWIKI);
-        } else {
+        }else if (TextFormat.CONVERTER_MARKDOWN.isFileOutOfThisFormat(fnlower)) {
+            setFormat(TextFormat.FORMAT_MARKDOWN);
+        }  else {
             setFormat(TextFormat.FORMAT_PLAIN);
         }
     }

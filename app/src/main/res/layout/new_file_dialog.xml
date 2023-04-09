@@ -36,6 +36,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="@string/name"
+            android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
         <LinearLayout

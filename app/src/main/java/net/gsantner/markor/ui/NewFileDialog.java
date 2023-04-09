@@ -90,7 +90,7 @@ public class NewFileDialog extends DialogFragment {
         View root;
         AlertDialog.Builder dialogBuilder;
         final AppSettings appSettings = new AppSettings(inflater.getContext());
-        dialogBuilder = new AlertDialog.Builder(inflater.getContext(), R.style.Theme_AppCompat_DayNight_Dialog);
+        dialogBuilder = new AlertDialog.Builder(inflater.getContext(), R.style.MyDialogTheme);
         root = inflater.inflate(R.layout.new_file_dialog, null);
 
         final EditText fileNameEdit = root.findViewById(R.id.new_file_dialog__name);

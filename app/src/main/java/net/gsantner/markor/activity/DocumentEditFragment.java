@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -312,7 +313,6 @@ public class DocumentEditFragment extends GsFragmentBase implements TextFormat.T
 
         menu.findItem(R.id.action_undo).setVisible(_appSettings.isEditorHistoryEnabled());
         menu.findItem(R.id.action_redo).setVisible(_appSettings.isEditorHistoryEnabled());
-        menu.findItem(R.id.action_send_debug_log).setVisible(MainActivity.IS_DEBUG_ENABLED && !isDisplayedAtMainActivity() && !_isPreviewVisible);
 
         final boolean isExperimentalFeaturesEnabled = _appSettings.isExperimentalFeaturesEnabled();
 
@@ -503,11 +503,11 @@ public class DocumentEditFragment extends GsFragmentBase implements TextFormat.T
 
                 return true;
             }
+            case R.string.action_format_markdown:
             case R.string.action_format_zimwiki:
             case R.string.action_format_keyvalue:
             case R.string.action_format_todotxt:
-            case R.string.action_format_plaintext:
-            case R.string.action_format_markdown: {
+            case R.string.action_format_plaintext: {
                 if (_document != null) {
                     _document.setFormat(itemId);
                     applyTextFormat(itemId);
@@ -520,11 +520,7 @@ public class DocumentEditFragment extends GsFragmentBase implements TextFormat.T
                 _textFormat.getTextActions().onSearch();
                 return true;
             }
-            case R.id.action_send_debug_log: {
-                final String text = AppSettings.getDebugLog() + "\n\n------------------------\n\n\n\n" + Document.getMaskedContent(_hlEditor.getText().toString());
-                _shareUtil.draftEmail("Debug Log " + getString(R.string.app_name_real), text, "debug@localhost.lan");
-                return true;
-            }
+
 
             case R.id.action_attach_color: {
                 _textFormat.getTextActions().showColorPickerDialog();
@@ -749,7 +745,7 @@ public class DocumentEditFragment extends GsFragmentBase implements TextFormat.T
             fadeInOut(_primaryScrollView, _webView);
         }
 
-        _nextConvertToPrintMode = false;
+        _nextConvertToPrintMode = true;
         _isPreviewVisible = show;
 
         ((AppCompatActivity) activity).supportInvalidateOptionsMenu();

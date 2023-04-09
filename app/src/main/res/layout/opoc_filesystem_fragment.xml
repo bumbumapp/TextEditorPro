@@ -15,6 +15,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ui__filesystem_dialog__root"
     android:layout_width="match_parent"
+    android:background="#373553"
     android:layout_height="wrap_content">
 
     <TextView
