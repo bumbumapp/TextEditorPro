@@ -43,11 +43,6 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import omrecorder.AudioRecordConfig;
-import omrecorder.OmRecorder;
-import omrecorder.PullTransport;
-import omrecorder.PullableSource;
-import omrecorder.Recorder;
 
 
 //
@@ -76,7 +71,7 @@ public class AudioRecordOmDialog {
 
         final AtomicBoolean isRecording = new AtomicBoolean();
         final AtomicBoolean isRecordSavedOnce = new AtomicBoolean();
-        final AtomicReference<Recorder> recorder = new AtomicReference<>();
+        final AtomicReference<WavRecorder> recorder = new AtomicReference<>();
         final AtomicReference<MediaPlayer> mediaPlayer = new AtomicReference<>();
         final AtomicReference<AlertDialog> dialog = new AtomicReference<>();
         final AtomicReference<Long> startTime = new AtomicReference<>();
@@ -88,8 +83,7 @@ public class AudioRecordOmDialog {
         // Record management callbacks
         final Callback.a2<Boolean, Boolean> recorderManager = (cbArgRestart, cbArgStop) -> {
             if (cbArgRestart) {
-                final PullableSource SRC_MICROPHONE = new PullableSource.Default(new AudioRecordConfig.Default(MediaRecorder.AudioSource.MIC, AudioFormat.ENCODING_PCM_16BIT, AudioFormat.CHANNEL_IN_STEREO, 44100));
-                recorder.set(OmRecorder.wav(new PullTransport.Default(SRC_MICROPHONE), TMP_FILE_RECORDING));
+                recorder.set(new WavRecorder(TMP_FILE_RECORDING));
                 recorder.get().startRecording();
                 startTime.set(System.currentTimeMillis());
             } else if (cbArgStop) {

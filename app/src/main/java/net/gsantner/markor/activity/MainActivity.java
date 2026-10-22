@@ -31,7 +31,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.pixplicity.generate.Rate;
 
 import net.gsantner.markor.BuildConfig;
 import net.gsantner.markor.R;

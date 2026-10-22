@@ -33,6 +33,7 @@ public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        EdgeToEdgeInsets.install(this);
         _app = this;
 
         // Per https://stackoverflow.com/a/54191884/4717438
