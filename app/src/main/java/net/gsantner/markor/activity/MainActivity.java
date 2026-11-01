@@ -32,6 +32,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import net.gsantner.markor.ads.AdsManager;
 import net.gsantner.markor.BuildConfig;
 import net.gsantner.markor.R;
 import net.gsantner.markor.format.TextFormat;
@@ -97,6 +98,11 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
         _viewPager.setOffscreenPageLimit(4);
         _bottomNav.setOnNavigationItemSelectedListener(this);
         _prevPos = tabIdToPos(R.id.nav_notebook); // Default
+
+        // Huawei AppGallery build: banner under the bottom navigation (no-op in the Play build).
+        AdsManager ads = AdsManager.get(this);
+        ads.init(this);
+        ads.loadBanner(this, findViewById(R.id.ad_container));
 
         // noinspection PointlessBooleanExpression - Send Test intent
         if (BuildConfig.IS_TEST_BUILD && false) {

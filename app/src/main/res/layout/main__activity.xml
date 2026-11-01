@@ -9,16 +9,22 @@
  *
 #########################################################*/
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     android:theme="@style/AppTheme.Unified"
     tools:context="net.gsantner.markor.activity.MainActivity">
+
+<FrameLayout
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -68,3 +74,11 @@
         app:menu="@menu/main__bottom_nav" />
 
 </FrameLayout>
+
+    <!-- Banner (Huawei AppGallery build only); hidden until an ad is loaded. -->
+    <FrameLayout
+        android:id="@+id/ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+</LinearLayout>

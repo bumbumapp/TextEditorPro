@@ -27,6 +27,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
+import net.gsantner.markor.ads.AdsManager;
 import net.gsantner.markor.R;
 import net.gsantner.markor.model.Document;
 import net.gsantner.markor.util.ActivityUtils;
@@ -125,6 +126,7 @@ public class DocumentActivity extends MarkorBaseActivity {
             nextLaunchTransparentBg = false;
         }
         setContentView(R.layout.document__activity);
+        AdsManager.get(this).init(this);
         _toolbar = findViewById(R.id.toolbar);
         _toolbarTitleText = findViewById(R.id.note__activity__text_note_title);
 
@@ -297,12 +299,18 @@ public class DocumentActivity extends MarkorBaseActivity {
             }
         }
 
-        // Handle in this activity
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAndRemoveTask();
-        } else {
-            finish();
-        }
+        // Handle in this activity. Leaving the editor is a natural break: the Huawei AppGallery build
+        // may show a (capped) interstitial first; the document was already saved in onPause.
+        AdsManager.get(this).onBreakPoint(this, () -> {
+            if (isFinishing()) {
+                return;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                finishAndRemoveTask();
+            } else {
+                finish();
+            }
+        });
     }
 
     public GsFragmentBase showFragment(GsFragmentBase fragment) {

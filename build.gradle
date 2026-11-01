@@ -42,13 +42,14 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://developer.huawei.com/repo/' }
         maven {
             url "https://jitpack.io"
             content { includeGroupByRegex 'com\\.github\\..*' }
         }
     }
 
-    tasks.matching { task -> task.name.matches('.*generate.*Resources') }.all {
+    tasks.matching { task -> task.name.matches('.*(generate.*Resources|process.*NavigationResources)') }.all {
         task -> task.dependsOn copyRepoFiles
     }
 
