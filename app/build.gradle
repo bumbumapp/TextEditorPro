@@ -38,8 +38,8 @@ android {
     defaultConfig {
         resValue "string", "manifest_package_id", "net.gsantner.markor"
         applicationId "com.bumbumapps.texteditorpro"
-        versionName "1.1.0"
-        versionCode 5
+        versionName "1.2.0"
+        versionCode 6
 
         multiDexEnabled true
         minSdk rootProject.ext.version_minSdk

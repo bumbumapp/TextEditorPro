@@ -307,7 +307,7 @@ public class MoreFragment extends GsFragmentBase implements IOBackPressed{
                     return true;
                 }
                 case R.string.pref_key__editor_basic_color_scheme_markor: {
-                    _as.setEditorBasicColor(true, R.color.white, R.color.dark_grey);
+                    _as.setEditorBasicColor(true, R.color.home_text, R.color.dark__background);
                     _as.setEditorBasicColor(false, R.color.dark_grey, R.color.light__background);
                     break;
                 }

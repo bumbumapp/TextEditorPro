@@ -18,7 +18,7 @@ import net.gsantner.markor.model.Document;
 import net.gsantner.markor.util.AppSettings;
 import net.gsantner.opoc.util.ActivityUtils;
 import net.gsantner.opoc.util.FileUtils;
-import net.gsantner.opoc.util.PermissionChecker;
+import net.gsantner.markor.util.PermissionChecker;
 
 import java.io.File;
 

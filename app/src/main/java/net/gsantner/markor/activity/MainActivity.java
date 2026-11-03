@@ -41,6 +41,7 @@ import net.gsantner.markor.ui.FilesystemViewerCreator;
 import net.gsantner.markor.ui.NewFileDialog;
 import net.gsantner.markor.util.ActivityUtils;
 import net.gsantner.markor.util.PermissionChecker;
+import net.gsantner.markor.util.SampleDocs;
 import net.gsantner.markor.util.ShareUtil;
 import net.gsantner.opoc.activity.GsFragmentBase;
 import net.gsantner.opoc.format.markdown.SimpleMarkdownParser;
@@ -75,6 +76,7 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
         super.onCreate(savedInstanceState);
         IS_DEBUG_ENABLED |= BuildConfig.IS_TEST_BUILD;
         _shareUtil = new ShareUtil(this);
+        SampleDocs.seedIfNeeded(this);
         setContentView(R.layout.main__activity);
         _bottomNav = findViewById(R.id.bottom_navigation_bar);
         _viewPager = findViewById(R.id.main__view_pager_container);
@@ -95,9 +97,10 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
         // Setup viewpager
         _viewPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         _viewPager.setAdapter(_viewPagerAdapter);
-        _viewPager.setOffscreenPageLimit(4);
+        _viewPager.setOffscreenPageLimit(5);
         _bottomNav.setOnNavigationItemSelectedListener(this);
-        _prevPos = tabIdToPos(R.id.nav_notebook); // Default
+        _prevPos = tabIdToPos(R.id.nav_home); // Default
+        _fab.hide();
 
         // Huawei AppGallery build: banner under the bottom navigation (no-op in the Play build).
         AdsManager ads = AdsManager.get(this);
@@ -113,7 +116,7 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
 
         // Switch to tab if specific folder _not_ requested, and not recreating from saved instance
         final int startTab = _appSettings.getAppStartupTab();
-        if (startTab != R.id.nav_notebook && savedInstanceState == null && getIntentDir(getIntent(), null) == null) {
+        if (startTab != R.id.nav_home && savedInstanceState == null && getIntentDir(getIntent(), null) == null) {
             _bottomNav.postDelayed(() -> _bottomNav.setSelectedItemId(startTab), 10);
         }
     }
@@ -319,11 +322,37 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
     }
 
     public int tabIdToPos(final int id) {
-        if (id == R.id.nav_notebook) return 0;
-        if (id == R.id.nav_todo) return 1;
-        if (id == R.id.nav_quicknote) return 2;
-        if (id == R.id.nav_more) return 3;
+        if (id == R.id.nav_home) return 0;
+        if (id == R.id.nav_notebook) return 1;
+        if (id == R.id.nav_todo) return 2;
+        if (id == R.id.nav_quicknote) return 3;
+        if (id == R.id.nav_more) return 4;
         return 0;
+    }
+
+    public void homeSelectTab(final int navId) {
+        _bottomNav.setSelectedItemId(navId);
+    }
+
+    /** Hero "New note": opens the new-file dialog in the notebook folder (no permission needed). */
+    public void homeNewNote() {
+        final File dir = _appSettings.getNotebookDirectory();
+        //noinspection ResultOfMethodCallIgnored
+        dir.mkdirs();
+        NewFileDialog.newInstance(dir, true, (ok, f) -> {
+            if (ok && f.isFile()) {
+                DocumentActivity.launch(MainActivity.this, f, false, null, null);
+            }
+        }).show(getSupportFragmentManager(), NewFileDialog.FRAGMENT_TAG);
+    }
+
+    public void homeSearch() {
+        homeSelectTab(R.id.nav_notebook);
+        final FilesystemViewerFragment frag = (FilesystemViewerFragment) _viewPagerAdapter.getFragmentByTag(FilesystemViewerFragment.FRAGMENT_TAG);
+        if (frag != null) {
+            frag.getAdapter().loadFolder(_appSettings.getNotebookDirectory());
+            _viewPager.post(frag::showSearch);
+        }
     }
 
     public int getCurrentPos() {
@@ -331,10 +360,11 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
     }
 
     public String getPosTitle(final int pos) {
-        if (pos == 0) return getFileBrowserTitle();
-        if (pos == 1) return getString(R.string.todo);
-        if (pos == 2) return getString(R.string.quicknote);
-        if (pos == 3) return getString(R.string.settings);
+        if (pos == 0) return getString(R.string.app_name);
+        if (pos == 1) return getFileBrowserTitle();
+        if (pos == 2) return getString(R.string.todo);
+        if (pos == 3) return getString(R.string.quicknote);
+        if (pos == 4) return getString(R.string.settings);
         return "";
     }
 
@@ -437,6 +467,9 @@ public class MainActivity extends MarkorBaseActivity implements FilesystemViewer
 
             switch (_bottomNav.getMenu().getItem(pos).getItemId()) {
                 default:
+                case R.id.nav_home: {
+                    return HomeFragment.newInstance();
+                }
                 case R.id.nav_notebook: {
                     return FilesystemViewerFragment.newInstance(getFilesystemFragmentOptions(null));
                 }

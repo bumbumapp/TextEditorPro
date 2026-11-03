@@ -59,8 +59,8 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
         }
 
         if (getInt(R.string.pref_key__editor_basic_color_scheme__bg, -999) == -999) {
-            setEditorBasicColor(true, R.color.white, R.color.dark_grey);
-            setEditorBasicColor(false, R.color.dark_grey, R.color.white);
+            setEditorBasicColor(true, R.color.home_text, R.color.dark__background);
+            setEditorBasicColor(false, R.color.home_text, R.color.dark__background);
         }
     }
 
@@ -102,6 +102,42 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
         return new File(getNotebookDirectoryAsStr());
     }
 
+    /** App-specific notebook folder: needs no storage permission at all. */
+    public File getAppNotebookDirectory() {
+        File d = _context.getExternalFilesDir("notebook");
+        if (d == null) {
+            d = new File(_context.getFilesDir(), "notebook");
+        }
+        //noinspection ResultOfMethodCallIgnored
+        d.mkdirs();
+        return d;
+    }
+
+    public boolean isInAppStorage(final File f) {
+        try {
+            final String p = f.getCanonicalPath();
+            final File ext = _context.getExternalFilesDir(null);
+            return p.startsWith(_context.getFilesDir().getCanonicalPath())
+                    || (ext != null && p.startsWith(ext.getCanonicalPath()));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /** True if the optional All-files-access (or legacy write) permission is granted. */
+    public boolean hasAllFilesAccess() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+        }
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || androidx.core.content.ContextCompat.checkSelfPermission(_context,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_GRANTED;
+    }
+
+    /** The notebook works without permission unless the user opted into a shared-storage folder. */
+    public boolean isNotebookInAppStorage() {
+        return isInAppStorage(new File(getNotebookDirectoryAsStr()));
+    }
+
     public String getNotebookDirectoryAsStr() {
         String dir = getString(R.string.pref_key__notebook_directory, "");
         if (dir.isEmpty() && LOCAL_TESTFOLDER_FILEPATH.exists() && !BuildConfig.IS_TEST_BUILD) {
@@ -109,10 +145,11 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
             setSaveDirectory(dir);
         }
         if (dir.isEmpty()) {
-            dir = new File(new File(Environment.getExternalStorageDirectory(), "/Documents")
-                    , rstr(R.string.app_name).toLowerCase(Locale.ROOT))
-                    .getAbsolutePath();
+            dir = getAppNotebookDirectory().getAbsolutePath();
             setSaveDirectory(dir);
+        } else if (!hasAllFilesAccess() && !isInAppStorage(new File(dir))) {
+            // Shared-storage folder from an earlier version but the optional permission is missing.
+            return getAppNotebookDirectory().getAbsolutePath();
         }
         return dir;
     }
@@ -563,11 +600,11 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
     }
 
     public int getEditorForegroundColor() {
-        return getInt(R.string.pref_key__editor_basic_color_scheme__fg, rcolor(R.color.primary));
+        return getInt(R.string.pref_key__editor_basic_color_scheme__fg, rcolor(R.color.home_text));
     }
 
     public int getEditorBackgroundColor() {
-        int c = getInt(R.string.pref_key__editor_basic_color_scheme__bg, rcolor(R.color.background));
+        int c = getInt(R.string.pref_key__editor_basic_color_scheme__bg, rcolor(R.color.dark__background));
         if (getAppThemeName().contains("black")) {
             c = Color.BLACK;
         }
@@ -587,6 +624,9 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
         int resIdBg = forDarkMode ? R.string.pref_key__editor_basic_color_scheme__bg_light :R.string.pref_key__editor_basic_color_scheme__bg_dark;
         setInt(resIdFg, rcolor(fgColor));
         setInt(resIdBg, rcolor(bgColor));
+        // The app runs in night mode, where the *_dark keys are the effective ones.
+        setInt(R.string.pref_key__editor_basic_color_scheme__fg_dark, rcolor(fgColor));
+        setInt(R.string.pref_key__editor_basic_color_scheme__bg_dark, rcolor(bgColor));
     }
 
     public boolean isMultiWindowEnabled() {
@@ -653,7 +693,7 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
             case 2:
                 return R.id.nav_quicknote;
         }
-        return R.id.nav_notebook;
+        return R.id.nav_home;
     }
 
     public boolean isSwipeToChangeMode() {

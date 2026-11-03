@@ -13,7 +13,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     tools:context="net.gsantner.markor.activity.DocumentEditFragment"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/textactions_bar_height"
-        android:background="#ffffff"
+        android:background="@color/background"
         android:fillViewport="true">
 
         <net.gsantner.markor.ui.hleditor.HighlightingEditor

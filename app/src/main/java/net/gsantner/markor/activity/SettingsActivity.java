@@ -246,7 +246,7 @@ public class SettingsActivity extends MarkorBaseActivity {
             switch (keyResId) {
 
                 case R.string.pref_key__notebook_directory: {
-                    if (permc.doIfExtStoragePermissionGranted()) {
+                    if (permc.doIfExtStoragePermissionGrantedStrict()) {
                         FragmentManager fragManager = getActivity().getSupportFragmentManager();
                         FilesystemViewerCreator.showFolderDialog(new FilesystemViewerData.SelectionListenerAdapter() {
                             @Override

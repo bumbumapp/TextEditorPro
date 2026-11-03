@@ -512,6 +512,10 @@ public class FilesystemViewerFragment extends GsFragmentBase
         return false;
     }
 
+    public void showSearch() {
+        executeSearchAction();
+    }
+
     private void executeSearchAction() {
         if (new PermissionChecker(getActivity()).doIfExtStoragePermissionGranted()) {
             final File currentFolder = getCurrentFolder();

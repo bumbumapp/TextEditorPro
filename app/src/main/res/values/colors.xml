@@ -23,10 +23,10 @@
     <color name="colorAccent">@color/accent</color>
 
     <!-- Color values -->
-    <color name="primary">#221f35</color>
-    <color name="primary_dark">#221f35</color>
+    <color name="primary">#161922</color>
+    <color name="primary_dark">#0D0F16</color>
     <color name="primary_light">#CED9DD</color>
-    <color name="accent">#FFC107</color>
+    <color name="accent">#A5A0FF</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">@color/white</color>
 
@@ -34,13 +34,13 @@
     <color name="divider_2">#ffffff</color>
     <color name="default_link_color">#388E3C</color>
 
-    <color name="light__background">#373553</color>
-    <color name="light__background_2">#373553</color>
+    <color name="light__background">#12141C</color>
+    <color name="light__background_2">#12141C</color>
     <color name="light__primary_text">#ffffff</color>
     <color name="light__secondary_text">#CCFFFFFF</color>
 
-    <color name="dark__background">#373553</color>
-    <color name="dark__background_2">#1F1C53</color>
+    <color name="dark__background">#12141C</color>
+    <color name="dark__background_2">#161922</color>
     <color name="dark__primary_text">@color/white</color>
     <color name="dark__secondary_text">#9e9e9e</color>
 
@@ -68,4 +68,15 @@
     <color name="nord_fg_light">#2E3440</color>
     <color name="link">#ff1ea3fd</color>;
 
+    <color name="home_card">#1B1E29</color>
+    <color name="home_card_pressed">#242837</color>
+    <color name="home_hero">#4F46E5</color>
+    <color name="home_hero_end">#7C6CF0</color>
+    <color name="home_text">#EDEFF5</color>
+    <color name="home_text_dim">#9AA1B2</color>
+    <color name="home_divider">#252937</color>
+    <color name="home_fg_violet">#C7B6FF</color>
+    <color name="home_fg_green">#7FE0B8</color>
+    <color name="home_fg_orange">#FFB48A</color>
+    <color name="home_fg_blue">#8CC4F5</color>
 </resources>

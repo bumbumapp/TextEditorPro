@@ -22,6 +22,15 @@ public class PermissionChecker extends net.gsantner.opoc.util.PermissionChecker 
 
     @Override
     public boolean doIfExtStoragePermissionGranted(String... optionalToastMessageForKnowingWhyNeeded) {
+        // The default notebook lives in app-specific storage: no permission needed (All-files-access is opt-in).
+        if (AppSettings.get().isNotebookInAppStorage()) {
+            return true;
+        }
+        return doIfExtStoragePermissionGrantedStrict(optionalToastMessageForKnowingWhyNeeded);
+    }
+
+    /** Asks for All-files-access (used by the optional "use shared storage" setting). */
+    public boolean doIfExtStoragePermissionGrantedStrict(String... optionalToastMessageForKnowingWhyNeeded) {
         return super.doIfExtStoragePermissionGranted(_activity.getString(R.string.error_need_storage_permission_to_save_documents));
     }
 

@@ -25,6 +25,7 @@
             <Preference
                 android:icon="@drawable/ic_save_black_24dp"
                 android:key="@string/pref_key__notebook_directory"
+                android:summary="@string/notebook_folder_optional"
                 android:title="@string/notebook" />
             <Preference
                 android:icon="@drawable/ic_lightning_black_24dp"

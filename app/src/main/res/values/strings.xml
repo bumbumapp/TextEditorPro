@@ -456,4 +456,20 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="share_into_format">Share into - Format</string>
     <string name="auto_format">Auto-format</string>
     <string name="insert_snippet">Insert snippet</string>
+
+    <string name="home_greeting_morning">Good morning</string>
+    <string name="home_greeting_afternoon">Good afternoon</string>
+    <string name="home_greeting_evening">Good evening</string>
+    <string name="home_title">Text Editor Pro</string>
+    <string name="home_new_note">New note</string>
+    <string name="home_new_note_sub">Start writing in Markdown or plain text</string>
+    <string name="home_todo_sub">Tasks and due dates</string>
+    <string name="home_quicknote_sub">Jot it down fast</string>
+    <string name="home_markdown">Markdown</string>
+    <string name="home_markdown_sub">Open the feature tour</string>
+    <string name="home_search_sub">Find in all notes</string>
+    <string name="home_recent_files">Recent files</string>
+    <string name="home_nav">Home</string>
+    <string name="home_edited">Edited %s</string>
+    <string name="notebook_folder_optional">Optional: pick a shared folder (needs All files access). Not required.</string>
 </resources>
