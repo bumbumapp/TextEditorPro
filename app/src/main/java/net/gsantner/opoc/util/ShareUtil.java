@@ -1406,20 +1406,7 @@ public class ShareUtil extends ContextUtils {
         final int v = android.os.Build.VERSION.SDK_INT;
         final AtomicReference<Callback.a0> permissionRequest = new AtomicReference<>();
 
-        // On Android R+ - check externalStorageManager is granted, otherwise request it
-        if (v >= android.os.Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
-            permissionRequest.set(() -> {
-                try {
-                    Uri uri = Uri.parse("package:" + getPackageIdReal());
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
-                    activity.startActivityForResult(intent, REQUEST_STORAGE_PERMISSION_R);
-                } catch (Exception ex) {
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                    activity.startActivityForResult(intent, REQUEST_STORAGE_PERMISSION_R);
-                }
-            });
-        }
+        // On Android R+ the app does not declare All-files access (it works in its own storage and via the system picker), so nothing is requested.
 
         // On Android M-Q - request M permission
         if (v >= android.os.Build.VERSION_CODES.M && v < android.os.Build.VERSION_CODES.R && ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

@@ -58,6 +58,12 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
             _isDeviceGoodHardware = _contextUtils.isDeviceGoodHardware();
         }
 
+        // 1.3.1: older installs could keep a light editor background; the app chrome is dark, so reset once.
+        if (!getBool("editor_dark_reset_131", false)) {
+            setBool("editor_dark_reset_131", true);
+            setEditorBasicColor(true, R.color.home_text, R.color.dark__background);
+            setEditorBasicColor(false, R.color.home_text, R.color.dark__background);
+        }
         if (getInt(R.string.pref_key__editor_basic_color_scheme__bg, -999) == -999) {
             setEditorBasicColor(true, R.color.home_text, R.color.dark__background);
             setEditorBasicColor(false, R.color.home_text, R.color.dark__background);

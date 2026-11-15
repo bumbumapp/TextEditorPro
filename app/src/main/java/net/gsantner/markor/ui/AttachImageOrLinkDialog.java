@@ -47,7 +47,7 @@ public class AttachImageOrLinkDialog {
         final Button buttonAudioRecord = view.findViewById(R.id.ui__select_path_dialog__record_audio);
 
         final int startCursorPos = _hlEditor.getSelectionStart();
-        buttonAudioRecord.setVisibility(action == AUDIO_ACTION ? View.VISIBLE : View.GONE);
+        buttonAudioRecord.setVisibility(View.GONE); // recording needs RECORD_AUDIO, which the app no longer declares
         buttonPictureCamera.setVisibility(action == IMAGE_ACTION ? View.VISIBLE : View.GONE);
         buttonPictureGallery.setVisibility(action == IMAGE_ACTION ? View.VISIBLE : View.GONE);
         buttonPictureEdit.setVisibility(action == IMAGE_ACTION ? View.VISIBLE : View.GONE);
@@ -187,7 +187,6 @@ public class AttachImageOrLinkDialog {
         });
 
         // Audio Record -> fs listener with arg file,"audio_record"
-        buttonAudioRecord.setOnClickListener(v -> AudioRecordOmDialog.showAudioRecordDialog(activity, R.string.record_audio, cbValAudioRecordFilepath -> fsListener.onFsViewerSelected("audio_record_om_dialog", cbValAudioRecordFilepath, null)));
 
         buttonPictureEdit.setOnClickListener(v -> {
             String filepath = inputPathUrl.getText().toString().replace("%20", " ");

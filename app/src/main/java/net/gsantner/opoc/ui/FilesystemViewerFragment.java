@@ -517,7 +517,7 @@ public class FilesystemViewerFragment extends GsFragmentBase
     }
 
     private void executeSearchAction() {
-        if (new PermissionChecker(getActivity()).doIfExtStoragePermissionGranted()) {
+        {
             final File currentFolder = getCurrentFolder();
             SearchOrCustomTextDialogCreator.showSearchFilesDialog(getActivity(), currentFolder, (relFilePath, lineNumber) -> {
                 File load = new File(currentFolder, relFilePath);
