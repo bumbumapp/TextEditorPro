@@ -58,15 +58,12 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
             _isDeviceGoodHardware = _contextUtils.isDeviceGoodHardware();
         }
 
-        // 1.3.1: older installs could keep a light editor background; the app chrome is dark, so reset once.
-        if (!getBool("editor_dark_reset_131", false)) {
-            setBool("editor_dark_reset_131", true);
+        // 1.3.1: older installs could keep a stale (light) editor background in dark mode. Reset once,
+        // for both themes; later user choices are stored under the same keys and never touched again.
+        if (!getBool("editor_colors_reset_131", false)) {
+            setBool("editor_colors_reset_131", true);
             setEditorBasicColor(true, R.color.home_text, R.color.dark__background);
-            setEditorBasicColor(false, R.color.home_text, R.color.dark__background);
-        }
-        if (getInt(R.string.pref_key__editor_basic_color_scheme__bg, -999) == -999) {
-            setEditorBasicColor(true, R.color.home_text, R.color.dark__background);
-            setEditorBasicColor(false, R.color.home_text, R.color.dark__background);
+            setEditorBasicColor(false, R.color.dark_grey, R.color.white);
         }
     }
 
@@ -606,11 +603,15 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
     }
 
     public int getEditorForegroundColor() {
-        return getInt(R.string.pref_key__editor_basic_color_scheme__fg, rcolor(R.color.home_text));
+        final boolean dark = isDarkThemeEnabled();
+        return getInt(dark ? R.string.pref_key__editor_basic_color_scheme__fg_dark : R.string.pref_key__editor_basic_color_scheme__fg_light,
+                rcolor(dark ? R.color.home_text : R.color.dark_grey));
     }
 
     public int getEditorBackgroundColor() {
-        int c = getInt(R.string.pref_key__editor_basic_color_scheme__bg, rcolor(R.color.dark__background));
+        final boolean dark = isDarkThemeEnabled();
+        int c = getInt(dark ? R.string.pref_key__editor_basic_color_scheme__bg_dark : R.string.pref_key__editor_basic_color_scheme__bg_light,
+                rcolor(dark ? R.color.dark__background : R.color.white));
         if (getAppThemeName().contains("black")) {
             c = Color.BLACK;
         }
@@ -626,13 +627,8 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
     }
 
     public void setEditorBasicColor(boolean forDarkMode, @ColorRes int fgColor, @ColorRes int bgColor) {
-        int resIdFg = forDarkMode ? R.string.pref_key__editor_basic_color_scheme__fg_light: R.string.pref_key__editor_basic_color_scheme__fg_light;
-        int resIdBg = forDarkMode ? R.string.pref_key__editor_basic_color_scheme__bg_light :R.string.pref_key__editor_basic_color_scheme__bg_dark;
-        setInt(resIdFg, rcolor(fgColor));
-        setInt(resIdBg, rcolor(bgColor));
-        // The app runs in night mode, where the *_dark keys are the effective ones.
-        setInt(R.string.pref_key__editor_basic_color_scheme__fg_dark, rcolor(fgColor));
-        setInt(R.string.pref_key__editor_basic_color_scheme__bg_dark, rcolor(bgColor));
+        setInt(forDarkMode ? R.string.pref_key__editor_basic_color_scheme__fg_dark : R.string.pref_key__editor_basic_color_scheme__fg_light, rcolor(fgColor));
+        setInt(forDarkMode ? R.string.pref_key__editor_basic_color_scheme__bg_dark : R.string.pref_key__editor_basic_color_scheme__bg_light, rcolor(bgColor));
     }
 
     public boolean isMultiWindowEnabled() {

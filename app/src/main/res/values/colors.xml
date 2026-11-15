@@ -62,6 +62,7 @@
     <color name="green_light">#00bb00</color>
     <color name="sepia_fg_light__bg_dark">#ffffff</color>
     <color name="sepia_bg_light__fg_dark">#EBDBB2</color>
+    <color name="sepia_text_brown">#5B4636</color>
     <color name="nord_bg_dark">#2E3440</color>
     <color name="nord_fg_dark">#ECEFF4</color>
     <color name="nord_bg_light">#ECEFF4</color>

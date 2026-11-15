@@ -308,7 +308,7 @@ public class SettingsActivity extends MarkorBaseActivity {
                     return true;
                 }
                 case R.string.pref_key__editor_basic_color_scheme_markor: {
-                    _as.setEditorBasicColor(true, R.color.white, R.color.dark_grey);
+                    _as.setEditorBasicColor(true, R.color.home_text, R.color.dark__background);
                     _as.setEditorBasicColor(false, R.color.dark_grey, R.color.white);
                     break;
                 }
@@ -338,8 +338,8 @@ public class SettingsActivity extends MarkorBaseActivity {
                     break;
                 }
                 case R.string.pref_key__editor_basic_color_scheme_sepia: {
-                    _as.setEditorBasicColor(true, R.color.sepia_bg_light__fg_dark, R.color.sepia_fg_light__bg_dark);
-                    _as.setEditorBasicColor(false, R.color.sepia_fg_light__bg_dark, R.color.sepia_bg_light__fg_dark);
+                    _as.setEditorBasicColor(true, R.color.sepia_bg_light__fg_dark, R.color.dark__background);
+                    _as.setEditorBasicColor(false, R.color.sepia_text_brown, R.color.sepia_bg_light__fg_dark);
                     break;
                 }
                 case R.string.pref_key__plaintext__reorder_actions:
