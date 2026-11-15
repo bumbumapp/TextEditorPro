@@ -110,4 +110,137 @@
         <item name="android:textColor">@color/home_text_dim</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <!-- Tool screens (Text Tools, JSON Studio, Templates, Compare) -->
+    <style name="ToolBtn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/tool_btn_bg</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">10sp</item>
+        <item name="autoSizeMaxTextSize">14sp</item>
+        <item name="autoSizeStepGranularity">1sp</item>
+        <item name="android:textColor">@color/home_text</item>
+        <item name="android:fontFamily">@font/jakarta_bold</item>
+    </style>
+    <style name="ToolBtn.Icon">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_weight">0</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:drawablePadding">0dp</item>
+    </style>
+    <style name="ToolBtn.Primary">
+        <item name="android:background">@drawable/tool_btn_primary_bg</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:layout_weight">1.5</item>
+    </style>
+    <style name="ToolChip">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:background">@drawable/tool_chip_bg</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:textColor">@color/tool_chip_text</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/jakarta_bold</item>
+    </style>
+    <style name="ToolSection">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textColor">@color/home_text</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:fontFamily">@font/jakarta_extrabold</item>
+    </style>
+    <style name="ToolSmallLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/home_text_dim</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/jakarta_bold</item>
+    </style>
+    <style name="ToolInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">top|start</item>
+        <item name="android:inputType">textMultiLine|textNoSuggestions</item>
+        <item name="android:textColor">@color/home_text</item>
+        <item name="android:textColorHint">@color/tool_mono_dim</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_accent</item>
+        <item name="android:importantForAutofill">no</item>
+    </style>
+    <style name="ToolStatTile">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minHeight">72dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:background">@drawable/tool_card</item>
+    </style>
+    <style name="ToolStatValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/home_text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/jakarta_extrabold</item>
+    </style>
+    <style name="ToolStatLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/home_text_dim</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+    <style name="HomeChip">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:background">@drawable/home_card_bg</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+    <style name="HomeChipIcon">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+    <style name="HomeChipLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/home_text</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/jakarta_bold</item>
+    </style>
 </resources>

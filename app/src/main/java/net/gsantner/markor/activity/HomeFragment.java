@@ -1,5 +1,6 @@
 package net.gsantner.markor.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import net.gsantner.markor.R;
+import net.gsantner.markor.tools.CompareActivity;
+import net.gsantner.markor.tools.JsonStudioActivity;
+import net.gsantner.markor.tools.TemplatesActivity;
+import net.gsantner.markor.tools.TextToolsActivity;
 import net.gsantner.markor.util.AppSettings;
 import net.gsantner.markor.util.SampleDocs;
 import net.gsantner.opoc.activity.GsFragmentBase;
@@ -57,6 +62,10 @@ public class HomeFragment extends GsFragmentBase {
             }
             DocumentActivity.launch(main, welcome, false, null, null);
         });
+        view.findViewById(R.id.home__tool_text).setOnClickListener(v -> startActivity(new Intent(main, TextToolsActivity.class)));
+        view.findViewById(R.id.home__tool_json).setOnClickListener(v -> startActivity(new Intent(main, JsonStudioActivity.class)));
+        view.findViewById(R.id.home__tool_templates).setOnClickListener(v -> startActivity(new Intent(main, TemplatesActivity.class)));
+        view.findViewById(R.id.home__tool_compare).setOnClickListener(v -> startActivity(new Intent(main, CompareActivity.class)));
         refreshRecent();
     }
 

@@ -37,14 +37,17 @@
             android:id="@+id/home__new_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/home_hero_bg"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center_vertical"
-            android:minHeight="112dp"
+            android:minHeight="88dp"
             android:orientation="horizontal"
-            android:padding="20dp">
+            android:paddingStart="20dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -55,10 +58,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jakarta_extrabold"
                     android:text="@string/home_new_note"
                     android:textColor="#FFFFFF"
-                    android:textSize="22sp"
-                    android:fontFamily="@font/jakarta_extrabold" />
+                    android:textSize="22sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -77,35 +80,44 @@
                 android:src="@drawable/ic_home_note_add" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/jakarta_extrabold"
+            android:text="@string/home_tools"
+            android:textColor="@color/home_text"
+            android:textSize="17sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/home__tile_todo"
+                android:id="@+id/home__tool_text"
                 style="@style/HomeTile"
                 android:layout_marginEnd="6dp">
 
                 <ImageView
                     style="@style/HomeTileIcon"
-                    android:background="@drawable/home_sq_green"
+                    android:background="@drawable/home_sq_blue"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/ic_assignment_turned_in_black_24dp"
-                    android:tint="@color/home_fg_green" />
+                    android:src="@drawable/ic_tool_text"
+                    android:tint="@color/home_fg_blue" />
 
                 <TextView
                     style="@style/HomeTileLabel"
-                    android:text="@string/todo" />
+                    android:text="@string/tool_text_name" />
 
                 <TextView
                     style="@style/HomeTileSub"
-                    android:text="@string/home_todo_sub" />
+                    android:text="@string/tool_text_sub" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/home__tile_quicknote"
+                android:id="@+id/home__tool_json"
                 style="@style/HomeTile"
                 android:layout_marginStart="6dp">
 
@@ -113,16 +125,16 @@
                     style="@style/HomeTileIcon"
                     android:background="@drawable/home_sq_orange"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/ic_lightning_black_24dp"
+                    android:src="@drawable/ic_tool_json"
                     android:tint="@color/home_fg_orange" />
 
                 <TextView
                     style="@style/HomeTileLabel"
-                    android:text="@string/quicknote" />
+                    android:text="@string/tool_json_name" />
 
                 <TextView
                     style="@style/HomeTileSub"
-                    android:text="@string/home_quicknote_sub" />
+                    android:text="@string/tool_json_sub" />
             </LinearLayout>
         </LinearLayout>
 
@@ -133,45 +145,123 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/home__tile_markdown"
+                android:id="@+id/home__tool_templates"
                 style="@style/HomeTile"
                 android:layout_marginEnd="6dp">
 
                 <ImageView
                     style="@style/HomeTileIcon"
+                    android:background="@drawable/home_sq_green"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_tool_templates"
+                    android:tint="@color/home_fg_green" />
+
+                <TextView
+                    style="@style/HomeTileLabel"
+                    android:text="@string/tool_tpl_name" />
+
+                <TextView
+                    style="@style/HomeTileSub"
+                    android:text="@string/tool_tpl_sub" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home__tool_compare"
+                style="@style/HomeTile"
+                android:layout_marginStart="6dp">
+
+                <ImageView
+                    style="@style/HomeTileIcon"
+                    android:background="@drawable/home_sq_violet"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_tool_compare"
+                    android:tint="@color/home_fg_violet" />
+
+                <TextView
+                    style="@style/HomeTileLabel"
+                    android:text="@string/tool_cmp_name" />
+
+                <TextView
+                    style="@style/HomeTileSub"
+                    android:text="@string/tool_cmp_sub" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/home__tile_todo"
+                style="@style/HomeChip"
+                android:layout_marginEnd="4dp">
+
+                <ImageView
+                    style="@style/HomeChipIcon"
+                    android:background="@drawable/home_sq_green"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_assignment_turned_in_black_24dp"
+                    android:tint="@color/home_fg_green" />
+
+                <TextView
+                    style="@style/HomeChipLabel"
+                    android:text="@string/todo" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home__tile_quicknote"
+                style="@style/HomeChip"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp">
+
+                <ImageView
+                    style="@style/HomeChipIcon"
+                    android:background="@drawable/home_sq_orange"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_lightning_black_24dp"
+                    android:tint="@color/home_fg_orange" />
+
+                <TextView
+                    style="@style/HomeChipLabel"
+                    android:text="@string/quicknote" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home__tile_markdown"
+                style="@style/HomeChip"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp">
+
+                <ImageView
+                    style="@style/HomeChipIcon"
                     android:background="@drawable/home_sq_violet"
                     android:importantForAccessibility="no"
                     android:src="@drawable/gs_markdown_black_24dp"
                     android:tint="@color/home_fg_violet" />
 
                 <TextView
-                    style="@style/HomeTileLabel"
+                    style="@style/HomeChipLabel"
                     android:text="@string/home_markdown" />
-
-                <TextView
-                    style="@style/HomeTileSub"
-                    android:text="@string/home_markdown_sub" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/home__tile_search"
-                style="@style/HomeTile"
-                android:layout_marginStart="6dp">
+                style="@style/HomeChip"
+                android:layout_marginStart="4dp">
 
                 <ImageView
-                    style="@style/HomeTileIcon"
+                    style="@style/HomeChipIcon"
                     android:background="@drawable/home_sq_blue"
                     android:importantForAccessibility="no"
                     android:src="@drawable/ic_search_black_24dp"
                     android:tint="@color/home_fg_blue" />
 
                 <TextView
-                    style="@style/HomeTileLabel"
+                    style="@style/HomeChipLabel"
                     android:text="@string/search" />
-
-                <TextView
-                    style="@style/HomeTileSub"
-                    android:text="@string/home_search_sub" />
             </LinearLayout>
         </LinearLayout>
 

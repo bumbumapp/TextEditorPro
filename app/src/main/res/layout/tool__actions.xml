@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/tool_bar_bg"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="12dp">
+
+    <net.gsantner.markor.tools.IconTextButton
+        android:id="@+id/tool_copy"
+        style="@style/ToolBtn.Icon"
+        android:drawableStart="@drawable/ic_tool_copy"
+        android:drawableTint="@color/home_text"
+        android:contentDescription="@string/tool_copy" />
+
+    <net.gsantner.markor.tools.IconTextButton
+        android:id="@+id/tool_share"
+        style="@style/ToolBtn.Icon"
+        android:layout_marginStart="8dp"
+        android:drawableStart="@drawable/ic_tool_share"
+        android:drawableTint="@color/home_text"
+        android:contentDescription="@string/tool_share" />
+
+    <net.gsantner.markor.tools.IconTextButton
+        android:id="@+id/tool_save"
+        style="@style/ToolBtn.Primary"
+        android:layout_marginStart="8dp"
+        android:drawableStart="@drawable/ic_tool_save"
+        android:drawableTint="#FFFFFF"
+        android:text="@string/tool_save_note" />
+</LinearLayout>

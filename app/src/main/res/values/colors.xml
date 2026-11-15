@@ -68,6 +68,13 @@
     <color name="nord_fg_light">#2E3440</color>
     <color name="link">#ff1ea3fd</color>;
 
+    <color name="tool_ok_fg">#7FE0B8</color>
+    <color name="tool_err_fg">#FF9AA8</color>
+    <color name="tool_add_bg">#15342A</color>
+    <color name="tool_del_bg">#3A1D25</color>
+    <color name="tool_mono_dim">#6D7487</color>
+    <color name="tool_chip_text">#EDEFF5</color>
+    <color name="home_fg_teal">#7CD6E4</color>
     <color name="home_card">#1B1E29</color>
     <color name="home_card_pressed">#242837</color>
     <color name="home_hero">#4F46E5</color>

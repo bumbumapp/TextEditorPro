@@ -73,6 +73,26 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="net.gsantner.markor.tools.TextToolsActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="net.gsantner.markor.tools.JsonStudioActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="net.gsantner.markor.tools.TemplatesActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="net.gsantner.markor.tools.CompareActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName=".activity.MainActivity" />
